@@ -217,3 +217,34 @@ svg path {
 #tooltip {
     /*opacity: 0 !important;*/
 }
+
+#alertRecieved {
+    position: absolute;
+    max-width: 300px;
+    max-height: 150px;
+    top: 20px;
+    z-index: 99999999999;
+    background: rgba(255, 255, 255, 0.9);
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    margin-bottom: 200px;
+    text-align: center;
+    border-radius: 5px;
+    display: none;
+}
+
+#alertRecieved .blink {
+    transition: 1s;
+    animation: 2s infinite colorchange;
+}
+@keyframes colorchange {
+    0% {
+        color: black;
+    }
+    50% {
+        color: grey;
+    }
+}
