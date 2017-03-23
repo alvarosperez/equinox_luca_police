@@ -1,7 +1,3 @@
-CARTO.callbacks['symbol_select'] = function(d){
-    return "image";
-};
-
 CARTO.callbacks['pre_equinox'] =
 
     function (map_object) {
@@ -48,7 +44,9 @@ CARTO.callbacks['init_equinox'] =
         self.map_object = map_object;
 
         console.log("INIT EQUINOX");
-        console.log(self)
+
+        let map = self.map_object.mapChart.map;
+        console.log(map);
 
         // hide legend box
         d3.select("div#legendBox").style("display", "none");
@@ -64,8 +62,28 @@ CARTO.callbacks['init_equinox'] =
         Object.keys(self.map_object.mapChart.markerLayers["Police Cars"]._layers).map(function(d,i){
             let layer = self.map_object.mapChart.markerLayers["Police Cars"]._layers[d];
 
-            console.log(layer._popup._content.split(":")[1])
+            //console.log(layer._popup._content.split(":")[1])
         });
 
         //console.log(car_list)
+
+        function alert(lat, lon){
+
+            let car_list = self.map_object.mapChart.geoData["Police Coverage"].geoPoints.map(function(d){
+                console.log(d.geometry.coordinates)
+
+                L.Routing.control({
+                    waypoints: [
+                        L.latLng(d.geometry.coordinates[1], d.geometry.coordinates[0]),
+                        L.latLng(lon, lat)
+                    ]
+                }).addTo(map);
+            });
+
+
+
+        }
+
+        alert(-98.0771484, 19.5282688);
+
     };

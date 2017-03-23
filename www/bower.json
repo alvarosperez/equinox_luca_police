@@ -19,7 +19,8 @@
     "interact": "latest",
     "qurl": "latest",
     "loglevel": "latest",
-    "ionrangeslider": "latest"
+    "ionrangeslider": "latest",
+    "leaflet-routing-machine": "latest"
   },
   "devDependencies": {},
   "resolutions": {
