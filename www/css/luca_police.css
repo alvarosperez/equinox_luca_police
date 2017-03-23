@@ -90,6 +90,13 @@ body {
     margin-right: 10px;
 }
 
+#menu #cars a span {
+    color: lightslategrey;
+    font-size: 10px;
+    float: right;
+    margin-right:20px;
+}
+
 .carSelected {
     color: white;
     animation: 2s infinite bgcolorchange;

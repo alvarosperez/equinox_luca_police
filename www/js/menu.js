@@ -1,7 +1,6 @@
 function fillMenu(list) {
-    count = 0;
-    list.map((elem, idx) => {
-        $("#menu #cars").append("<a href='#' data-element='" + elem + "'><i class=\"fa fa-car icon-white\"></i>Police Car #" + (idx + 1) + "</a>")
+    list.map((elem) => {
+        $("#menu #cars").append(elem)
     });
 
     d3.selectAll("#menu #cars a").on("mouseover", function() {
