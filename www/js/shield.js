@@ -51,8 +51,6 @@ CARTO.callbacks['init_equinox'] =
         // hide legend box
         d3.select("div#legendBox").style("display", "none");
 
-
-
         let car_list = self.map_object.mapChart.geoData["Police Coverage"].geoPoints.map(function(d){
             return d.id;
         });
@@ -93,37 +91,41 @@ CARTO.callbacks['init_equinox'] =
                 posLeft = $('.drag').css('left');
 
             $('.drag').draggable({
-                start: function(e, ui) {
-                    $(this).css("z-index", 1000);
+                helper: 'clone',
+                start: function (e, ui) {
+                    $(ui.helper).addClass("ui-draggable-helper")
                 },
                 stop: function (e, ui) {
                     // returning the icon to the menu
                     $('.drag').css('top', posTop);
                     $('.drag').css('left', posLeft);
 
-                    var coordsX = event.clientX,
-                        coordsY = event.clientY,
-                        point = L.point(coordsX, coordsY), // createing a Point object with the given x and y coordinates
-                        markerCoords = map.containerPointToLatLng(point), // getting the geographical coordinates of the point
+                    var coords = $('#menu').position();
+                    coords.bottom = coords.top + $('#menu').height();
+                    coords.bottomRight = coords.left + $('#menu').width();
+                    if (!(ui.position.top >= coords.top && ui.position.top <= coords.bottom && ui.position.left >= coords.left && ui.position.left <= coords.bottomRight)) {
+                        var coordsX = event.clientX,
+                            coordsY = event.clientY,
+                            point = L.point(coordsX, coordsY), // createing a Point object with the given x and y coordinates
+                            markerCoords = map.containerPointToLatLng(point), // getting the geographical coordinates of the point
 
-                        // Creating a custom icon
-                        myIcon = L.icon({
-                            iconUrl: 'css/img/siren.png', // the url of the img
-                            iconSize: [60, 60],
-                            iconAnchor: [30, 30], // the coordinates of the "tip" of the icon ( in this case must be ( icon width/ 2, icon height )
-                            className: "siren"
-                        });
+                            // Creating a custom icon
+                            myIcon = L.icon({
+                                iconUrl: 'css/img/siren.png', // the url of the img
+                                iconSize: [60, 60],
+                                iconAnchor: [30, 30], // the coordinates of the "tip" of the icon ( in this case must be ( icon width/ 2, icon height )
+                                className: "alertMarker"
+                            });
 
-                    // Creating a new marker and adding it to the map
-                    markers[markersCount] = L.marker([markerCoords.lat, markerCoords.lng], {
-                        draggable: true,
-                        icon: myIcon
-                    }).addTo(map);
+                        // Creating a new marker and adding it to the map
+                        markers[markersCount] = L.marker([markerCoords.lat, markerCoords.lng], {
+                            draggable: true,
+                            icon: myIcon
+                        }).addTo(map);
 
-                    alert(markerCoords.lng, markerCoords.lat);
-
-                    console.log(markerCoords);
-                    markersCount++;
+                        console.log(markerCoords);
+                        markersCount++;
+                    }
                 }
             });
         };

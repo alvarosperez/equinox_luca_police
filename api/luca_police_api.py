@@ -1,10 +1,12 @@
 import logging
 from flask import Flask
 from flask import request
-from car_positions import Fleet
-from incidents import simulate_incident
+from api.car_positions import Fleet
+from api.incidents import simulate_incident
+#from flask_cors import CORS
 
 app = Flask(__name__)
+#CORS(app)
 
 f = Fleet()
 server_port = 5001
