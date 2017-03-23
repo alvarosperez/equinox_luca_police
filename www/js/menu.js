@@ -1,4 +1,4 @@
-function fillMenu(list) {
+function fillMenu(list, self) {
     count = 0;
     list.map((elem, idx) => {
         $("#menu #cars").append("<a href='#' data-element='" + elem + "'><i class=\"fa fa-car icon-white\"></i>Police Car #" + (idx + 1) + "</a>")
@@ -11,10 +11,22 @@ function fillMenu(list) {
             if (d.id == id) {
                 d3.select(this).style("fill", "url(#radialGradientGreen)")
                     .style("stroke", "rgba(13,255,153, 0.4)")
-                    .style("stroke-width", "1px");
+                    .style("stroke-width", "1px")
             }
             return (d.id != id);
         });
+    });
+
+    d3.selectAll("#menu #cars a").on("click", function(){
+        let id = d3.select(this).attr("data-element");
+
+        d3.selectAll("circle.points").classed("activated", function(d){
+            if (d.id == id) {
+                console.log(d)
+                self.map_object.mapChart.map.panTo(new L.latLng(d.geometry.coordinates[1], d.geometry.coordinates[0]));
+            }
+            return (d.id == id);
+        })
     });
 
     d3.selectAll("#menu #cars a").on("mouseout", function() {
