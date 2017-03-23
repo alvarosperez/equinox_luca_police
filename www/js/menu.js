@@ -6,6 +6,7 @@ function fillMenu(list) {
 
     d3.selectAll("#menu #cars a").on("mouseover", function() {
         let id = d3.select(this).attr("data-element");
+        $(this).find("i").addClass("carSelected")
 
         d3.selectAll("circle.points").classed("deactivated", function(d){
             if (d.id == id) {
@@ -19,6 +20,7 @@ function fillMenu(list) {
 
     d3.selectAll("#menu #cars a").on("mouseout", function() {
         d3.selectAll("circle.points").classed("deactivated", false);
+        $(this).find("i").removeClass("carSelected")
 
         d3.selectAll("circle.points")
                 .style("fill", "url(#exampleGradient)")

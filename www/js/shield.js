@@ -101,7 +101,11 @@ CARTO.callbacks['init_equinox'] =
                     var coords = $('#menu').position();
                     coords.bottom = coords.top + $('#menu').height();
                     coords.bottomRight = coords.left + $('#menu').width();
-                    if (!(ui.position.top >= coords.top && ui.position.top <= coords.bottom && ui.position.left >= coords.left && ui.position.left <= coords.bottomRight)) {
+                    if (markersCount >= 0) {
+                        d3.select("#sirenImg").classed("undraggable", "true")
+                    }
+                    if (!(ui.position.top >= coords.top && ui.position.top <= coords.bottom && ui.position.left >= coords.left && ui.position.left <= coords.bottomRight) && markersCount === 0) {
+                        d3.select("#sirenImg").classed("undraggable", "false")
                         var coordsX = event.clientX,
                             coordsY = event.clientY,
                             point = L.point(coordsX, coordsY), // createing a Point object with the given x and y coordinates
