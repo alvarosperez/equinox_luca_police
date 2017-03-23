@@ -60,7 +60,7 @@ class Planner:
         #print (lat_dest, lon_dest)
         #print "----"
 
-        distances = self.gmaps.distance_matrix(car_latlons, (float(lon_dest),float(lat_dest)),
+        distances = self.gmaps.distance_matrix(car_latlons, (float(lat_dest),float(lon_dest)),
                                           mode='driving',
                                           departure_time=datetime.now())
 
