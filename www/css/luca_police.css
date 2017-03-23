@@ -54,7 +54,7 @@ body {
     transition: 0.5s;
     width: 100%;
     display: block;
-    padding: 8px 30px;
+    padding: 8px 16px;
     text-align: left;
     background-color: inherit;
     color: inherit;
@@ -63,14 +63,57 @@ body {
     white-space: normal;
     text-decoration: none;
 }
+
+@keyframes bgcolorchange {
+  0% {
+    text-shadow: 0 0 0;
+  }
+  20% {
+    text-shadow: 0 0 25px blue;
+  }
+  30% {
+    text-shadow: 0 0 0;
+  }
+  40% {
+    text-shadow: 0 0 25px blue;
+  }
+  50% {
+    text-shadow: 0 0 0;
+  }
+  70% {
+    text-shadow: 0 0 25px red;
+  }
+  80% {
+    text-shadow: 0 0 0;
+  }
+  90% {
+    text-shadow: 0 0 25px red;
+  }
+  100% {
+    text-shadow: 0 0 0;
+  }
+}
+
 #menu #cars a i {
     margin-right: 10px;
 }
 
+#menu #cars a span {
+    color: lightslategrey;
+    font-size: 10px;
+    float: right;
+    margin-right:20px;
+}
+
+.carSelected {
+    color: white;
+    animation: 2s infinite bgcolorchange;
+}
+
+
 #menu #cars a:hover {
     background:#0DFF99;
 }
-
 
 @font-face {
     font-family: 'telefonica_textregular';
@@ -159,6 +202,11 @@ svg path {
     margin: 0px;
 
     cursor: pointer;
+}
+
+#siren .undraggable {
+    pointer-events: none;
+    opacity: 0.5;
 }
 
 .ui-draggable-helper {
