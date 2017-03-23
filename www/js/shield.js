@@ -59,6 +59,8 @@ CARTO.callbacks['init_equinox'] =
             return d.id;
         });
 
+        fillMenu(car_list);
+
         Object.keys(self.map_object.mapChart.markerLayers["Police Cars"]._layers).map(function(d,i){
             let layer = self.map_object.mapChart.markerLayers["Police Cars"]._layers[d];
 
