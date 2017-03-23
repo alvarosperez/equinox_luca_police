@@ -55,10 +55,14 @@ CARTO.callbacks['init_equinox'] =
         // hide legend box
         d3.select("div#legendBox").style("display", "none");
 
-        let car_list = self.map_object.mapChart.geoData["Police Coverage"].geoPoints.map(function(d){
-            return d.id;
+        car_list = []
+        self.map_object.mapChart.geoData["Police Coverage"].geoPoints.map(function(d, idx){
+            let html = `<a href='#' data-element='${d.id}'><i class="fa fa-car icon-white"></i>Police Car #${idx + 1} <span class="speed">${d.properties.speed} Km/h</span></a>`
+            car_list.push(html)
         });
 
+        console.log(self.map_object.layer_info["Police Coverage"]['content'])
+        
         fillMenu(car_list);
 
         Object.keys(self.map_object.mapChart.markerLayers["Police Cars"]._layers).map(function(d,i){
@@ -101,7 +105,11 @@ CARTO.callbacks['init_equinox'] =
                     var coords = $('#menu').position();
                     coords.bottom = coords.top + $('#menu').height();
                     coords.bottomRight = coords.left + $('#menu').width();
-                    if (!(ui.position.top >= coords.top && ui.position.top <= coords.bottom && ui.position.left >= coords.left && ui.position.left <= coords.bottomRight)) {
+                    if (markersCount >= 0) {
+                        d3.select("#sirenImg").classed("undraggable", "true")
+                    }
+                    if (!(ui.position.top >= coords.top && ui.position.top <= coords.bottom && ui.position.left >= coords.left && ui.position.left <= coords.bottomRight) && markersCount === 0) {
+                        d3.select("#sirenImg").classed("undraggable", "false")
                         var coordsX = event.clientX,
                             coordsY = event.clientY,
                             point = L.point(coordsX, coordsY), // createing a Point object with the given x and y coordinates
