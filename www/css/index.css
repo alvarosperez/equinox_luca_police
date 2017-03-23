@@ -1,3 +1,6 @@
+body {
+    font-family: 'telefonica_textregular', Calibri, sans-serif;
+}
 #update {
     position: fixed;
     z-index: 99999999999;
@@ -21,15 +24,20 @@
     top: 0;
     right: 0;
     overflow-x: hidden;
-    padding-top: 60px;
     transition: 0.5s;
+}
+
+#menu #title {
+    font-family: 'telefonica_cap', Calibri, sans-serif;
+    padding: 8px 16px;
+    border-bottom: 2px;
 }
 
 #menu ul {
     list-style-type: none;
 }
 
-#menu ul li {
+#menu #cars a {
     width: 100%;
     display: block;
     padding: 8px 16px;
@@ -39,4 +47,24 @@
     border: none;
     outline: none;
     white-space: normal;
+    text-decoration: none;
+}
+
+#menu #cars a:hover {
+    background: grey;
+}
+
+@font-face {
+    font-family: 'telefonica_textregular';
+    src: url('font/telefonicatext-regular-webfont.woff2') format('woff2'),
+         url('font/telefonicatext-regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'telefonica_cap';
+    src: url('font/telefonica-cap-webfont.woff2') format('woff2'),
+         url('font/telefonica-cap-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
 }
