@@ -7,7 +7,7 @@ import json
 
 
 # Each second, we simulate are this number of seconds
-time_step = 60
+time_step = 600
 
 import logging
 logging.basicConfig(level=logging.INFO,
