@@ -84,6 +84,49 @@ CARTO.callbacks['init_equinox'] =
 
         }
 
-        alert(-98.0771484, 19.5282688);
+        var markers = [], // an array containing all the markers added to the map
+            markersCount = 0; // the number of the added markers
+        var addMarkers = () => {
+            let map = self.map_object.mapChart.map;
+            // The position of the marker icon
+            var posTop = $('.drag').css('top'),
+                posLeft = $('.drag').css('left');
 
+            $('.drag').draggable({
+                start: function(e, ui) {
+                    $(this).css("z-index", 1000);
+                },
+                stop: function (e, ui) {
+                    // returning the icon to the menu
+                    $('.drag').css('top', posTop);
+                    $('.drag').css('left', posLeft);
+
+                    var coordsX = event.clientX,
+                        coordsY = event.clientY,
+                        point = L.point(coordsX, coordsY), // createing a Point object with the given x and y coordinates
+                        markerCoords = map.containerPointToLatLng(point), // getting the geographical coordinates of the point
+
+                        // Creating a custom icon
+                        myIcon = L.icon({
+                            iconUrl: 'img/siren.svg', // the url of the img
+                            iconSize: [40, 60],
+                            iconAnchor: [10, 40], // the coordinates of the "tip" of the icon ( in this case must be ( icon width/ 2, icon height )
+                            className: "siren"
+                        });
+
+                    // Creating a new marker and adding it to the map
+                    markers[markersCount] = L.marker([markerCoords.lat, markerCoords.lng], {
+                        draggable: true,
+                        icon: myIcon
+                    }).addTo(map);
+
+                    alert(markerCoords.lng, markerCoords.lat);
+
+                    console.log(markerCoords);
+                    markersCount++;
+                }
+            });
+        };
+
+        addMarkers();
     };
