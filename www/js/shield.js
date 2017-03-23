@@ -5,77 +5,128 @@ CARTO.callbacks['pre_equinox'] =
         let self = {};
         self.map_object = map_object;
 
-        console.log("PRE-RENDER");
+        console.log("PRE-RENDER-COVERAGE");
 
+        // define gradients and put them to use
+        let gradient = self.map_object.mapChart.svg
+            .append('defs')
+                .append("radialGradient").attr("id", "exampleGradient");
+        gradient.append("stop").attr("offset", "10%").attr("stop-color", "rgba(0, 0, 255, 0.8)");
+        gradient.append("stop").attr("offset", "90%").attr("stop-color", "rgba(0, 0, 255, 0.2)");
+
+        map_object.map_callbacks_aux.point.enter = function (d, i, domElement) {
+
+            d.style("fill", "url(#exampleGradient)")
+                .style("stroke", "rgba(0, 0, 255, 0.4)")
+                .style("stroke-width", "1px");
+
+            d.attr("class", function(circle){
+                return "points car_circle_" + circle.id;
+            });
+
+        };
+
+        map_object.map_callbacks_aux.point.update = function(d, i, domElement) {
+
+            d.style("fill", "url(#exampleGradient)")
+                .style("stroke", "rgba(0, 0, 255, 0.4)")
+                .style("stroke-width", "1px");
+
+        };
     };
+
 
 CARTO.callbacks['init_equinox'] =
 
     function (map_object, args) {
 
         let self = {};
-
         self.map_object = map_object;
 
         console.log("INIT EQUINOX");
 
-        console.log(map_object);
+        let map = self.map_object.mapChart.map;
+        console.log(map);
 
         // hide legend box
         d3.select("div#legendBox").style("display", "none");
 
-        let new_data = {
-            "type": "FeatureCollection",
-            "features": [
-              {
-                "geometry": {
-                  "type": "Point",
-                  "coordinates": [2.3, 41.4]
+
+
+        let car_list = self.map_object.mapChart.geoData["Police Coverage"].geoPoints.map(function(d){
+            return d.id;
+        });
+
+        fillMenu(car_list);
+
+        Object.keys(self.map_object.mapChart.markerLayers["Police Cars"]._layers).map(function(d,i){
+            let layer = self.map_object.mapChart.markerLayers["Police Cars"]._layers[d];
+
+            //console.log(layer._popup._content.split(":")[1])
+        });
+
+        //console.log(car_list)
+
+        function alert(lat, lon){
+
+            let car_list = self.map_object.mapChart.geoData["Police Coverage"].geoPoints.map(function(d){
+                console.log(d.geometry.coordinates)
+
+                L.Routing.control({
+                    waypoints: [
+                        L.latLng(d.geometry.coordinates[1], d.geometry.coordinates[0]),
+                        L.latLng(lon, lat)
+                    ]
+                }).addTo(map);
+            });
+
+
+
+        }
+
+        var markers = [], // an array containing all the markers added to the map
+            markersCount = 0; // the number of the added markers
+        var addMarkers = () => {
+            let map = self.map_object.mapChart.map;
+            // The position of the marker icon
+            var posTop = $('.drag').css('top'),
+                posLeft = $('.drag').css('left');
+
+            $('.drag').draggable({
+                start: function(e, ui) {
+                    $(this).css("z-index", 1000);
                 },
-                "type": "Feature",
-                "id": 1,
-                "properties": {
-                  "coverage": 10000,
-                  "id": 1,
-                  "type": "basic"
+                stop: function (e, ui) {
+                    // returning the icon to the menu
+                    $('.drag').css('top', posTop);
+                    $('.drag').css('left', posLeft);
+
+                    var coordsX = event.clientX,
+                        coordsY = event.clientY,
+                        point = L.point(coordsX, coordsY), // createing a Point object with the given x and y coordinates
+                        markerCoords = map.containerPointToLatLng(point), // getting the geographical coordinates of the point
+
+                        // Creating a custom icon
+                        myIcon = L.icon({
+                            iconUrl: 'img/siren.svg', // the url of the img
+                            iconSize: [40, 60],
+                            iconAnchor: [10, 40], // the coordinates of the "tip" of the icon ( in this case must be ( icon width/ 2, icon height )
+                            className: "siren"
+                        });
+
+                    // Creating a new marker and adding it to the map
+                    markers[markersCount] = L.marker([markerCoords.lat, markerCoords.lng], {
+                        draggable: true,
+                        icon: myIcon
+                    }).addTo(map);
+
+                    alert(markerCoords.lng, markerCoords.lat);
+
+                    console.log(markerCoords);
+                    markersCount++;
                 }
-              },
-              {
-                "geometry": {
-                  "type": "Point",
-                  "coordinates": [2.1, 41.3]
-                },
-                "type": "Feature",
-                "id": 2,
-                "properties": {
-                  "coverage": 10000,
-                  "id": 2,
-                  "type": "basic"
-                }
-              },
-              {
-                "geometry": {
-                  "type": "Point",
-                  "coordinates": [2.15, 41.35]
-                },
-                "type": "Feature",
-                "id": 3,
-                "properties": {
-                  "coverage": 10000,
-                  "id": 3,
-                  "type": "basic"
-                }
-              }
-            ]
+            });
         };
 
-        d3.select("#update").on("click", function(){
-
-            let layer = "Police Cars";
-
-            self.map_object.layer_info[layer]['content'] = new_data;
-
-            self.map_object.mapChart.render(self.map_object.layer_info[layer]['content'], layer);
-
-        });
+        addMarkers();
     };
