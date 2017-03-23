@@ -1,7 +1,3 @@
-CARTO.callbacks['symbol_select'] = function(d){
-    return "image";
-};
-
 CARTO.callbacks['pre_equinox'] =
 
     function (map_object) {
@@ -48,7 +44,9 @@ CARTO.callbacks['init_equinox'] =
         self.map_object = map_object;
 
         console.log("INIT EQUINOX");
-        console.log(self)
+
+        let map = self.map_object.mapChart.map;
+        console.log(map);
 
         // hide legend box
         d3.select("div#legendBox").style("display", "none");
@@ -64,10 +62,27 @@ CARTO.callbacks['init_equinox'] =
         Object.keys(self.map_object.mapChart.markerLayers["Police Cars"]._layers).map(function(d,i){
             let layer = self.map_object.mapChart.markerLayers["Police Cars"]._layers[d];
 
-            console.log(layer._popup._content.split(":")[1])
+            //console.log(layer._popup._content.split(":")[1])
         });
 
         //console.log(car_list)
+
+        function alert(lat, lon){
+
+            let car_list = self.map_object.mapChart.geoData["Police Coverage"].geoPoints.map(function(d){
+                console.log(d.geometry.coordinates)
+
+                L.Routing.control({
+                    waypoints: [
+                        L.latLng(d.geometry.coordinates[1], d.geometry.coordinates[0]),
+                        L.latLng(lon, lat)
+                    ]
+                }).addTo(map);
+            });
+
+
+
+        }
 
         var markers = [], // an array containing all the markers added to the map
             markersCount = 0; // the number of the added markers
@@ -95,7 +110,8 @@ CARTO.callbacks['init_equinox'] =
                         myIcon = L.icon({
                             iconUrl: 'img/siren.svg', // the url of the img
                             iconSize: [40, 60],
-                            iconAnchor: [10, 40] // the coordinates of the "tip" of the icon ( in this case must be ( icon width/ 2, icon height )
+                            iconAnchor: [10, 40], // the coordinates of the "tip" of the icon ( in this case must be ( icon width/ 2, icon height )
+                            className: "siren"
                         });
 
                     // Creating a new marker and adding it to the map
@@ -104,11 +120,13 @@ CARTO.callbacks['init_equinox'] =
                         icon: myIcon
                     }).addTo(map);
 
+                    alert(markerCoords.lng, markerCoords.lat);
+
                     console.log(markerCoords);
                     markersCount++;
                 }
             });
-        }
+        };
 
         addMarkers();
     };

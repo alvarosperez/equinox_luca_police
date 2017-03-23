@@ -80,16 +80,40 @@ body {
     pointer-events: none;
     margin-top: 28px;
     font-size: 20px;
-    /*color: white !important;*/
 }
 
-.awesome-marker-icon-transparent, .awesome-marker-shadow {
+.awesome-marker-icon-transparent, .awesome-marker-shadow  {
     pointer-events: none;
     background: transparent !important;
 }
 
+.leaflet-marker-shadow {
+    opacity: 0 !important;
+}
+
 .deactivated {
     opacity: 0.3 !important;
+}
+
+.leaflet-routing-container {
+    display: none !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+
+.leaflet-marker-pane > img.leaflet-marker-icon {
+    pointer-events: none;
+    opacity: 0 !important;
+    display: none;
+}
+
+.leaflet-marker-pane > img.leaflet-marker-icon.siren {
+    display: block;
+    opacity: 1 !important;
+}
+
+svg path {
+    pointer-events: none;
 }
 
 .drag img {

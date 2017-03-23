@@ -38,10 +38,10 @@
 
     },
     "vizOptions":{
-            "tiles": "Stamen.Toner",
+            "tiles": "CartoDB.Positron",
             "initLatLng": [19.4326, -99.1332],
             "mapOptions":{
-                "zoom": 11,
+                "zoom": 12,
                 "maxZoom": 20
             },
             "hideOnZoom": false,
