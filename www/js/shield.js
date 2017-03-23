@@ -8,16 +8,20 @@ CARTO.callbacks['pre_equinox'] =
         console.log("PRE-RENDER-COVERAGE");
 
         // define gradients and put them to use
-        let gradient = self.map_object.mapChart.svg
-            .append('defs')
-                .append("radialGradient").attr("id", "exampleGradient");
-        gradient.append("stop").attr("offset", "10%").attr("stop-color", "rgba(0, 0, 255, 0.8)");
-        gradient.append("stop").attr("offset", "90%").attr("stop-color", "rgba(0, 0, 255, 0.2)");
+        let defs = self.map_object.mapChart.svg.append('defs');
+
+        let gradient = defs.append("radialGradient").attr("id", "exampleGradient");
+        gradient.append("stop").attr("offset", "10%").attr("stop-color", "rgba(0,153,212, 0.8)");
+        gradient.append("stop").attr("offset", "90%").attr("stop-color", "rgba(0,153,212, 0.2)");
+
+        gradient = defs.append("radialGradient").attr("id", "radialGradientGreen");
+        gradient.append("stop").attr("offset", "10%").attr("stop-color", "rgba(13,255,153, 0.8)");
+        gradient.append("stop").attr("offset", "90%").attr("stop-color", "rgba(13,255,153, 0.2)");
 
         map_object.map_callbacks_aux.point.enter = function (d, i, domElement) {
 
             d.style("fill", "url(#exampleGradient)")
-                .style("stroke", "rgba(0, 0, 255, 0.4)")
+                .style("stroke", "rgba(0,153,212, 0.4)")
                 .style("stroke-width", "1px");
 
             d.attr("class", function(circle){
@@ -29,7 +33,7 @@ CARTO.callbacks['pre_equinox'] =
         map_object.map_callbacks_aux.point.update = function(d, i, domElement) {
 
             d.style("fill", "url(#exampleGradient)")
-                .style("stroke", "rgba(0, 0, 255, 0.4)")
+                .style("stroke", "rgba(0,153,212, 0.4)")
                 .style("stroke-width", "1px");
 
         };
@@ -59,14 +63,11 @@ CARTO.callbacks['init_equinox'] =
 
         Object.keys(self.map_object.mapChart.markerLayers["Police Cars"]._layers).map(function(d,i){
             let layer = self.map_object.mapChart.markerLayers["Police Cars"]._layers[d];
-
             //console.log(layer._popup._content.split(":")[1])
         });
 
-        //console.log(car_list)
 
         function alert(lat, lon){
-
             let car_list = self.map_object.mapChart.geoData["Police Coverage"].geoPoints.map(function(d){
                 console.log(d.geometry.coordinates)
 
@@ -77,9 +78,6 @@ CARTO.callbacks['init_equinox'] =
                     ]
                 }).addTo(map);
             });
-
-
-
         }
 
         var markers = [], // an array containing all the markers added to the map
@@ -100,7 +98,6 @@ CARTO.callbacks['init_equinox'] =
                     $('.drag').css('top', posTop);
                     $('.drag').css('left', posLeft);
 
-
                     var coords = $('#menu').position();
                     coords.bottom = coords.top + $('#menu').height();
                     coords.bottomRight = coords.left + $('#menu').width();
@@ -112,9 +109,9 @@ CARTO.callbacks['init_equinox'] =
 
                             // Creating a custom icon
                             myIcon = L.icon({
-                                iconUrl: 'img/siren.svg', // the url of the img
-                                iconSize: [40, 60],
-                                iconAnchor: [10, 40], // the coordinates of the "tip" of the icon ( in this case must be ( icon width/ 2, icon height )
+                                iconUrl: 'css/img/siren.png', // the url of the img
+                                iconSize: [60, 60],
+                                iconAnchor: [30, 30], // the coordinates of the "tip" of the icon ( in this case must be ( icon width/ 2, icon height )
                                 className: "alertMarker"
                             });
 
@@ -124,7 +121,9 @@ CARTO.callbacks['init_equinox'] =
                             icon: myIcon
                         }).addTo(map);
 
-                        console.log(markerCoords);
+                        //console.log(markerCoords);
+                        alert(markerCoords.lng, markerCoords.lat);
+
                         markersCount++;
                     }
                 }

@@ -13,7 +13,7 @@
             "display": {
                 "Coverage": "coverage"
             },
-            "file": "data/equinox.json"
+            "file": ["json", "http://localhost:5000/get_positions"]
         },
         {
             "name": "Police Cars",
@@ -25,7 +25,7 @@
             "display": {
                 "id": "id"
             },
-            "file": "data/equinox.json"
+            "file": ["json", "http://localhost:5000/get_positions"]
         }
     ],
     "markers":{
@@ -41,7 +41,7 @@
             "tiles": "CartoDB.Positron",
             "initLatLng": [19.4326, -99.1332],
             "mapOptions":{
-                "zoom": 12,
+                "zoom": 11,
                 "maxZoom": 20
             },
             "hideOnZoom": false,
