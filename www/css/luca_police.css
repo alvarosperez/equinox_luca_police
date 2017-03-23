@@ -1,16 +1,6 @@
 body {
     font-family: 'telefonica_textregular', Calibri, sans-serif;
 }
-#update {
-    position: fixed;
-    z-index: 100;
-    bottom: 20px;
-    right: 20px;
-    padding: 10px;
-    background: #ffffff;
-    cursor: pointer;
-    border: 2px solid red;
-}
 
 #map {
     width: 100%;
@@ -77,4 +67,25 @@ body {
          url('font/telefonica-cap-webfont.woff') format('woff');
     font-weight: normal;
     font-style: normal;
+}
+
+img {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.awesome-marker i {
+    pointer-events: none;
+    margin-top: 28px;
+    font-size: 20px;
+    /*color: white !important;*/
+}
+
+.awesome-marker-icon-transparent, .awesome-marker-shadow {
+    pointer-events: none;
+    background: transparent !important;
+}
+
+.deactivated {
+    opacity: 0.3 !important;
 }
