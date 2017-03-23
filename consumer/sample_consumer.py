@@ -25,7 +25,23 @@ for message in consumer:
     logging.info("Message received: " + str(message.value))
     logging.info("Received: " + str(message.value))
     v = json.loads(message.value)
-    print v['longitude']
+    #print v['longitude']
+
+    # Primero insertamos siempre, despues hacemos esto si no esta alertado (state==0)
+
+    alerted_query = "select state from cars where code='{}'".format(v['iddevice'])
+    result = cur.execute(alerted_query)
+    update = True
+    for r in result:
+        if r[0] != 0:
+            update = False
+
+    if not update:
+        logging("Car was alarmed, do not update")
+        continue
+
+
+
 
     insert_string = "INSERT or REPLACE INTO cars (code, lat, long, day, speed, state)  \
                      VALUES ('{}', {}, {}, '{}', {}, {})".format(v['iddevice'],
