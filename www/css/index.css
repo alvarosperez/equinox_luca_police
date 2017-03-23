@@ -64,6 +64,12 @@ body {
     background:#00C6D7;
 }
 
+#menu #siren img {
+    max-width: inherit;
+    max-height: 50px;
+    margin: 5px;
+}
+
 @font-face {
     font-family: 'telefonica_textregular';
     src: url('font/telefonicatext-regular-webfont.woff2') format('woff2'),
