@@ -6,9 +6,6 @@
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
-        <!-- Custom CSS -->
-        <link rel="stylesheet" href="./css/index.css" />
-
         <link rel="stylesheet" href="./bower_components/leaflet/dist/leaflet.css" />
         <link rel="stylesheet" href="./bower_components/carto/dist/css/carto.css" />
 
@@ -33,7 +30,6 @@
 
         <!--<link rel="stylesheet" href="css/profiles.css" />-->
 
-
         <link rel="stylesheet" href="./bower_components/font-awesome/css/font-awesome.min.css">
 
 
@@ -53,13 +49,11 @@
         <script src="./bower_components/tdvizlib/common/js/3rdparty/jquery.slider.min.js" charset="utf-8"></script>
         <script src="./bower_components/tdvizlib/common/js/extras/generic_slider.js" charset="utf-8"></script>
 
-
         <!--Leaflet awesome markers-->
         <script src="./bower_components/Leaflet.awesome-markers/dist/leaflet.awesome-markers.js"></script>
 
         <!--Leaflet awesome markers-->
         <script src="./bower_components/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
-
 
         <script src="./bower_components/carto/dist/js/carto.js"></script>
         <script src="./bower_components/carto/dist/js/modules/constants.js"></script>
@@ -91,10 +85,14 @@
         <script src="js/map_patch.js"></script>
         <script src="js/shield.js"></script>
         <script src="js/menu.js"></script>
+
+        <!-- CSS -->
+        <link rel="stylesheet" href="css/luca_police.css" />
+
     </head>
 
     <body>
-            <div id="update">Change Data!!</div>
+
             <div id="map" class="map"></div>
 
             <!--<div id="info_box" style="opacity:0"></div>
@@ -115,7 +113,6 @@
                 let config_file = 'config' in Qurl.create().query() ? Qurl.create().query().config: 'config/config.equinox.json';
 
                 let mapObj = new CARTO({'container': $("#map"), 'config_file': config_file});
-                fillMenu()
             </script>
 
     </body>
