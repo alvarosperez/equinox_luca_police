@@ -108,9 +108,9 @@ CARTO.callbacks['init_equinox'] =
 
                         // Creating a custom icon
                         myIcon = L.icon({
-                            iconUrl: 'img/siren.svg', // the url of the img
-                            iconSize: [40, 60],
-                            iconAnchor: [10, 40], // the coordinates of the "tip" of the icon ( in this case must be ( icon width/ 2, icon height )
+                            iconUrl: 'css/img/siren.png', // the url of the img
+                            iconSize: [60, 60],
+                            iconAnchor: [30, 30], // the coordinates of the "tip" of the icon ( in this case must be ( icon width/ 2, icon height )
                             className: "siren"
                         });
 

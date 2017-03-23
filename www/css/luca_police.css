@@ -8,17 +8,19 @@ body {
 }
 
 #menu {
-    height: 80%;
+    height: 100%;
     margin: auto 0 0 auto;
-    border-radius: 0 0 0 25px;
-    width: 13%;
+    /*border-radius: 0 0 0 20px;*/
+    width: 270px;
     position: fixed;
     z-index: 200;
     top: 0;
     right: 0;
     overflow-x: hidden;
     transition: 0.5s;
-    background: white;
+
+    background: linear-gradient(-90deg,#f1f1f1,hsla(0,0%,100%,.3));
+    box-shadow: -1px 1px 20px 0px rgba(0,0,0,.4);
 }
 
 #menu #title {
@@ -26,7 +28,7 @@ body {
     padding: 10px 15px;
     margin: auto 0 0 auto;
     color: white;
-    background: #004356;
+    background: #909;
     text-align: center;
 }
 
@@ -50,14 +52,26 @@ body {
     white-space: normal;
     text-decoration: none;
 }
+#menu #cars a i {
+    margin-right: 10px;
+}
 
 #menu #cars a:hover {
-    background:#00C6D7;
+    background:#0DFF99;
+}
+
+
+#menu #siren {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f1f1f1;
+    padding: 20px;
 }
 
 #menu #siren img {
     max-width: inherit;
-    max-height: 50px;
+    max-height: 60px;
     margin: 5px;
 }
 

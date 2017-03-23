@@ -3,9 +3,11 @@ from flask import Flask
 from flask import request
 from car_positions import get_car_positions
 from incidents import simulate_incident
+from flask_cors import CORS
+
 
 app = Flask(__name__)
-
+CORS(app)
 
 
 @app.route("/get_positions")
