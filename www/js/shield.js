@@ -82,21 +82,27 @@ CARTO.callbacks['init_equinox'] =
             d3.json(uri + "/push_incident?lon=" + lon + "&lat=" + lat, function(data){
                 console.log(data);
                 let car_ids = [];
+                let car_list = [];
 
                 data.map(function(car, i){
                     if (i <= 1)
                         car_ids.push(car[1]);
+
+                    let html = `<a href='#' data-element='${car[1]}'><i class="fa fa-car icon-white"></i>Police Car ${car[1].toUpperCase().replace("B", "#")} <span class="speed">${car[7]} / ${car[9]}</span></a>`
+                    car_list.push(html)
                 });
+
+                fillMenu(car_list, self);
 
                 console.log("showing best routes " + car_ids.length);
 
-                let car_list = self.map_object.mapChart.geoData["Police Coverage"].geoPoints.map(function(d){
+                car_list = self.map_object.mapChart.geoData["Police Coverage"].geoPoints.map(function(d){
 
                     if (car_ids.indexOf(d.id) >= 0) {
                         L.Routing.control({
                             waypoints: [
                                 L.latLng(d.geometry.coordinates[1], d.geometry.coordinates[0]),
-                                L.latLng(lon, lat)
+                                L.latLng(lat, lon)
                             ],
                             fitSelectedRoutes: false
                         }).addTo(map);
@@ -151,7 +157,7 @@ CARTO.callbacks['init_equinox'] =
                         }).addTo(map);
 
                         //console.log(markerCoords);
-                        alert(markerCoords.lng, markerCoords.lat);
+                        alert(markerCoords.lat, markerCoords.lng);
 
                         markersCount++;
                     }
@@ -162,7 +168,7 @@ CARTO.callbacks['init_equinox'] =
 
         car_list = [];
         self.map_object.mapChart.geoData["Police Coverage"].geoPoints.map(function(d, idx){
-            let html = `<a href='#' data-element='${d.id}'><i class="fa fa-car icon-white"></i>Police Car #${idx + 1} <span class="speed">${d.properties.speed} Km/h</span></a>`
+            let html = `<a href='#' data-element='${d.id}'><i class="fa fa-car icon-white"></i>Police Car ${d.id.toUpperCase().replace("B", "#")} <span class="speed">${d.properties.speed} Km/h</span></a>`
             car_list.push(html)
         });
 
@@ -174,7 +180,7 @@ CARTO.callbacks['init_equinox'] =
         let marker_layer = "Police Cars";
         let layer = "Police Coverage";
 
-        /*
+
         window.setInterval(function(){
 
             d3.json(uri + "/get_positions", function(new_data){
@@ -200,7 +206,7 @@ CARTO.callbacks['init_equinox'] =
             })
 
         }, 5000);
-        */
+
 
         console.log(self.map_object)
     };

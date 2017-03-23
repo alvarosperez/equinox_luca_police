@@ -50,7 +50,7 @@ body {
 
 #menu #cars a {
     font-family: 'telefonica_textregular', Calibri, sans-serif;
-    font-weight: bold;
+    /*font-weight: bold;*/
     transition: 0.5s;
     width: 100%;
     display: block;
@@ -215,5 +215,5 @@ svg path {
 }
 
 #tooltip {
-    opacity: 0 !important;
+    /*opacity: 0 !important;*/
 }
