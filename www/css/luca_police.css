@@ -1,0 +1,123 @@
+body {
+    font-family: 'telefonica_textregular', Calibri, sans-serif;
+}
+
+#map {
+    width: 100%;
+    z-index: 100;
+}
+
+#menu {
+    height: 80%;
+    margin: auto 0 0 auto;
+    border-radius: 0 0 0 25px;
+    width: 13%;
+    position: fixed;
+    z-index: 200;
+    top: 0;
+    right: 0;
+    overflow-x: hidden;
+    transition: 0.5s;
+    background: white;
+}
+
+#menu #title {
+    font-family: 'telefonica_cap', Calibri, sans-serif;
+    padding: 10px 15px;
+    margin: auto 0 0 auto;
+    color: white;
+    background: #004356;
+    text-align: center;
+}
+
+#menu #title h2 {
+    margin-top: 3px;
+    margin-bottom: 3px;
+}
+
+#menu #cars a {
+    font-family: 'telefonica_textregular', Calibri, sans-serif;
+    font-weight: bold;
+    transition: 0.5s;
+    width: 100%;
+    display: block;
+    padding: 8px 16px;
+    text-align: left;
+    background-color: inherit;
+    color: inherit;
+    border: none;
+    outline: none;
+    white-space: normal;
+    text-decoration: none;
+}
+
+#menu #cars a:hover {
+    background:#00C6D7;
+}
+
+#menu #siren img {
+    max-width: inherit;
+    max-height: 50px;
+    margin: 5px;
+}
+
+@font-face {
+    font-family: 'telefonica_textregular';
+    src: url('font/telefonicatext-regular-webfont.woff2') format('woff2'),
+         url('font/telefonicatext-regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'telefonica_cap';
+    src: url('font/telefonica-cap-webfont.woff2') format('woff2'),
+         url('font/telefonica-cap-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.awesome-marker i {
+    pointer-events: none;
+    margin-top: 28px;
+    font-size: 20px;
+}
+
+.awesome-marker-icon-transparent, .awesome-marker-shadow  {
+    pointer-events: none;
+    background: transparent !important;
+}
+
+.leaflet-marker-shadow {
+    opacity: 0 !important;
+}
+
+.deactivated {
+    opacity: 0.3 !important;
+}
+
+.leaflet-routing-container {
+    display: none !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+
+.leaflet-marker-pane > img.leaflet-marker-icon {
+    pointer-events: none;
+    opacity: 0 !important;
+    display: none;
+}
+
+.leaflet-marker-pane > img.leaflet-marker-icon.siren {
+    display: block;
+    opacity: 1 !important;
+}
+
+svg path {
+    pointer-events: none;
+}
+
+.drag img {
+    position: absolute;
+    cursor: pointer;
+    z-index: 500;
+}
