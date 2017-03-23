@@ -28,6 +28,7 @@ body {
     color: white;
     background: #004356;
     text-align: center;
+    margin-bottom: 60px;
 }
 
 #menu #title h2 {
@@ -96,4 +97,18 @@ body {
     position: absolute;
     cursor: pointer;
     z-index: 500;
+}
+
+#sirenImg {
+    position: absolute;
+    top: 70px;
+    right: 70px;
+    z-index: 9999;
+    max-width: 50px;
+    max-height: 50px;
+}
+
+.ui-draggable-helper {
+    z-index: 99999;
+    max-width: 50px;
 }
