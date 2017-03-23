@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+        <meta charset="UTF-8">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+        <link rel="stylesheet" href="./bower_components/leaflet/dist/leaflet.css" />
+        <link rel="stylesheet" href="./bower_components/carto/dist/css/carto.css" />
+
+        <link href="./bower_components/font-awesome/css/font-awesome.css" rel="stylesheet">
+
+    	<link rel="stylesheet" href="./bower_components/leaflet.markercluster/dist/MarkerCluster.css" />
+    	<link rel="stylesheet" href="./bower_components/leaflet.markercluster/dist/MarkerCluster.Default.css" />
+
+        <!--Leaflet awesome markers-->
+
+        <link rel="stylesheet" href="./bower_components/Leaflet.awesome-markers/dist/leaflet.awesome-markers.css">
+
+        <link rel="stylesheet" href="./bower_components/tdvizlib/common/css/jquery.slider.min.css" />
+        <link rel="stylesheet" href="./bower_components/tablesorter/themes/green/style.css" />
+
+
+        <!--Double range slider-->
+
+        <link rel="stylesheet" href="./bower_components/ionrangeslider/css/normalize.css" />
+        <link rel="stylesheet" href="./bower_components/ionrangeslider/css/ion.rangeSlider.css" />
+        <link rel="stylesheet" href="./bower_components/ionrangeslider/css/ion.rangeSlider.skinModern.css" />
+
+        <!--<link rel="stylesheet" href="css/profiles.css" />-->
+
+
+        <link rel="stylesheet" href="./bower_components/font-awesome/css/font-awesome.min.css">
+
+
+
+        <title></title>
+
+        <script src="./bower_components/moment/moment.js" charset="utf-8"></script>
+        <script src="./bower_components/jquery/jquery.min.js" charset="utf-8"></script>
+        <script src="./bower_components/d3/d3.min.js" charset="utf-8"></script>
+        <script src="./bower_components/leaflet/dist/leaflet.js" charset="utf-8"></script>
+        <script src="./bower_components/leaflet-providers/leaflet-providers.js" charset="utf-8"></script>
+        <script src="./bower_components/tdvizlib/modules/maps/common/js/3rdparty/QuadTree.js" charset="utf-8"></script>
+        <script src="./bower_components/tdvizlib/modules/maps/common/js/3rdparty/heatmap.js" charset="utf-8"></script>
+        <script src="./bower_components/tdvizlib/modules/maps/common/js/3rdparty/heatmap-leaflet.js" charset="utf-8"></script>
+
+        <script src="./bower_components/tdvizlib/common/js/3rdparty/jquery.slider.min.js" charset="utf-8"></script>
+        <script src="./bower_components/tdvizlib/common/js/extras/generic_slider.js" charset="utf-8"></script>
+
+
+        <!--Leaflet awesome markers-->
+        <script src="./bower_components/Leaflet.awesome-markers/dist/leaflet.awesome-markers.js"></script>
+
+        <!--Leaflet awesome markers-->
+        <script src="./bower_components/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
+
+
+        <script src="./bower_components/carto/dist/js/carto.js"></script>
+        <script src="./bower_components/carto/dist/js/modules/constants.js"></script>
+        <script src="./bower_components/carto/dist/js/modules/callbacks.js" charset="utf-8"></script>
+        <script src="./bower_components/carto/dist/js/modules/translate.js" charset="utf-8"></script>
+        <script src="./bower_components/carto/dist/js/modules/data_access.js" charset="utf-8"></script>
+        <script src="./bower_components/carto/dist/js/modules/format.js" charset="utf-8"></script>
+        <script src="./bower_components/carto/dist/js/modules/scales.js" charset="utf-8"></script>
+        <script src="./bower_components/carto/dist/js/modules/filters.js" charset="utf-8"></script>
+        <script src="./bower_components/carto/dist/js/modules/timeline.js" charset="utf-8"></script>
+        <script src="./bower_components/carto/dist/js/modules/layers.js" charset="utf-8"></script>
+        <script src="./bower_components/carto/dist/js/modules/log.js" charset="utf-8"></script>
+
+
+        <script src="./bower_components/tdvizlib/modules/maps/lib/map_viz_carto.js" charset="utf-8"></script>
+        <script src="./bower_components/latlon-geohash-bobbr/latlon-geohash.js" charset="utf-8"></script>
+        <script src="./bower_components/d3-legend/d3-legend.min.js" charset="utf-8"></script>
+        <script src="./bower_components/tablesorter/jquery.tablesorter.min.js" charset="utf-8"></script>
+        <script src="./bower_components/interact/interact.js" charset="utf-8"></script>
+        <script src="./bower_components/qurl/qurl.js" charset="utf-8"></script>
+        <script src="./bower_components/loglevel/dist/loglevel.min.js" charset="utf-8"></script>
+
+        <!--Double range slider-->
+
+        <script src="./bower_components/ionrangeslider/js/ion.rangeSlider.min.js" charset="utf-8"></script>
+
+
+        <!-- Custom js -->
+        <script src="js/map_patch.js"></script>
+        <script src="js/shield.js"></script>
+
+
+    </head>
+
+    <body>
+
+            <style>
+                #update {
+                    position: absolute;
+                    z-index: 99999999999;
+                    bottom: 20px;
+                    right: 20px;
+                    padding: 10px;
+                    background: #ffffff;
+                    cursor: pointer;
+                    border: 2px solid red;
+                }
+            </style>
+            <div id="update">Change Data!!</div>
+            <div id="map" class="map"></div>
+
+            <!--<div id="info_box" style="opacity:0"></div>
+            <div id="close" style="opacity:0"><i class="fa fa-times" aria-hidden="true"></i></div>-->
+
+            <script type="text/javascript">
+
+                let config_file = 'config' in Qurl.create().query() ? Qurl.create().query().config: 'config/config.equinox.json';
+
+                let mapObj = new CARTO({'container': $("#map"), 'config_file': config_file});
+            </script>
+
+    </body>
+</html>

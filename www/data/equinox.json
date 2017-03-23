@@ -1,0 +1,31 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [2.2013871388888893, 41.40401498055555]
+      },
+      "type": "Feature",
+      "id": 1,
+      "properties": {
+        "coverage": 10000,
+        "id": 1,
+        "type": "basic"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [2.18, 41.380401498055555]
+      },
+      "type": "Feature",
+      "id": 2,
+      "properties": {
+        "coverage": 10000,
+        "id": 2,
+        "type": "basic"
+      }
+    }
+  ]
+}

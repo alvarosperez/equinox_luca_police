@@ -1,0 +1,37 @@
+{
+    "name": "Equinox",
+    "on_load": ["init_equinox",[]],
+    "layers": [
+        {
+            "pre_render": "pre_equinox",
+            "name": "Police Cars",
+            "color_range": ["#5F5", "#5F5"],
+            "size_range": [1000, 6000],
+            "type": "point",
+            "value": "coverage",
+            "color_legend_gradient": true,
+            "display": {
+                "Coverage": "coverage"
+            },
+            "file": "data/equinox.json",
+            "filters": [
+                {
+                    "type": "categories",
+                    "field": "type",
+                    "name": "Vehicle type"
+                }
+            ]
+        }
+    ],
+    "vizOptions":{
+            "tiles": "CartoDB.Positron",
+            "initLatLng": [41.40, 2.15],
+            "mapOptions":{
+                "zoom": 12,
+                "maxZoom": 20
+            },
+            "hideOnZoom": false,
+            "showBreadCrumbs": true,
+            "layerSelect": false
+    }
+}
