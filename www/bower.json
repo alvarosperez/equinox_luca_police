@@ -20,6 +20,7 @@
     "qurl": "latest",
     "loglevel": "latest",
     "ionrangeslider": "latest",
+    "leaflet-routing-machine": "latest",
     "jquery-ui": "^1.12.1"
   },
   "devDependencies": {},
