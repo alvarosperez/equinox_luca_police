@@ -6,6 +6,7 @@ from incidents import Planner
 from flask_cors import CORS
 from assign_car import update_assigned_car
 import ConfigParser
+import sys
 
 
 
@@ -37,9 +38,10 @@ def assign_car():
     return update_assigned_car(idcar, lat, lon)
 
 
+
 if __name__ == "__main__":
 
-    logging.basicConfig(level=logging.INFO,
+    logging.basicConfig(stream=sys.stdout, level=logging.DEBUG,
                     format='%(asctime)s %(levelname)-6s| %(message)s')
 
     logging.info("Starting API")
@@ -47,5 +49,7 @@ if __name__ == "__main__":
     Config.read('api.cfg')
 
     port = Config.getint('app', 'port')
+    hostname = Config.get('app', 'host')
+
     logging.info("Starting port: " + str(port))
-    app.run(host='10.95.230.230', port=port)
+    app.run(host=hostname, port=port)

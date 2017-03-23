@@ -21,8 +21,8 @@ class Planner:
             dbpath = Config.get('database', 'path')
             logging.info("Connecting to database: " + dbpath)
 
-            self.con = lite.connect('/data/hertz/luca_police.db')
-            #self.con = lite.connect(dbpath)
+            #self.con = lite.connect('/data/hertz/luca_police.db')
+            self.con = lite.connect(dbpath)
 
             self.cur = self.con.cursor()
             self.gmaps = googlemaps.Client(key='AIzaSyAxs5vmybTJsCKFgpSlkNk7ud9WojXZbpk')

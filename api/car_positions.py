@@ -1,6 +1,7 @@
 import json
 import sqlite3 as lite
 import logging
+import ConfigParser
 
 
 class Fleet:
@@ -8,7 +9,12 @@ class Fleet:
 
     def __init__(self):
         try:
-            self.con = lite.connect('/data/hertz/luca_police.db')
+            Config = ConfigParser.ConfigParser()
+            Config.read('api.cfg')
+
+            dbpath = Config.get('database', 'path')
+            #self.con = lite.connect('/data/hertz/luca_police.db')
+            self.con = lite.connect(dbpath)
             self.cur = self.con.cursor()
         except:
             logging.error("Couldnt find database")
