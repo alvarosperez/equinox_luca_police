@@ -1,14 +1,17 @@
+import logging
 from flask import Flask
 from flask import request
-
 from car_positions import get_car_positions
 from incidents import simulate_incident
+
 app = Flask(__name__)
+
 
 
 @app.route("/get_positions")
 def get_positions():
     return get_car_positions()
+
 
 @app.route("/push_incident")
 def push_incident():
@@ -18,4 +21,9 @@ def push_incident():
 
 
 if __name__ == "__main__":
+
+    logging.basicConfig(level=logging.INFO,
+                    format='%(asctime)s %(levelname)-6s| %(message)s')
+    logging.info("Starting API")
+
     app.run()
