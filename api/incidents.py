@@ -25,7 +25,10 @@ class Planner:
             self.con = lite.connect(dbpath)
 
             self.cur = self.con.cursor()
-            self.gmaps = googlemaps.Client(key='AIzaSyAxs5vmybTJsCKFgpSlkNk7ud9WojXZbpk')
+            #self.gmaps = googlemaps.Client(key='AIzaSyAxs5vmybTJsCKFgpSlkNk7ud9WojXZbpk')
+            self.gmaps = googlemaps.Client(key='AIzaSyC5CmqBm7QUJWb2duz9apTRQtt1-347QKU')
+
+
 
         except:
             logging.error("Couldnt find database")
@@ -43,20 +46,28 @@ class Planner:
 
 
 
-    def calculate_distance(self, positions, lat, lon):
+    def calculate_distance(self, positions, lat_dest, lon_dest):
         car_latlons = []
         #print type(positions)
         #print positions
 
         for (code, lat, lon, dt, state) in positions:
-            logging.info("Incluying latlong: " + str((lat,lon)))
+            logging.info("Including latlong: " + str((lat,lon)))
+            print "Including latlong: " + str((lat,lon))
             car_latlons.append((lat,lon))
+        #print "----"
+        #print (lat,lon)
+        #print (lat_dest, lon_dest)
+        #print "----"
 
-        distances = self.gmaps.distance_matrix(car_latlons, (lat,lon),
+        distances = self.gmaps.distance_matrix(car_latlons, (float(lon_dest),float(lat_dest)),
                                           mode='driving',
                                           departure_time=datetime.now())
 
         return_distances = []
+        print distances
+        print len(distances['rows'])
+        print len(positions)
 
 
         for (i, (code, lat, lon, dt, state)) in enumerate(positions):
@@ -67,7 +78,11 @@ class Planner:
                    , distances['rows'][i]['elements'][0]['distance']['text'] ) )
 
 
-        return sorted(return_distances, key=lambda x: x[5])
+        return sorted(return_distances, key=lambda x: x[6])
+
+
+
+
 
 
     def calculate_coverage(self, distances):
