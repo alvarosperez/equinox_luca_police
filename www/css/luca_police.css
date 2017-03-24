@@ -62,6 +62,7 @@ body {
     outline: none;
     white-space: normal;
     text-decoration: none;
+    box-sizing: border-box;
 }
 
 @keyframes bgcolorchange {
@@ -98,16 +99,27 @@ body {
     margin-right: 10px;
 }
 
-#menu #cars a span {
+/*#menu #cars a span {
     color: lightslategrey;
     font-size: 10px;
     float: right;
     margin-right:20px;
+}*/
+
+#cars a p {
+    font-size: 12px;
+    margin: 0;
+    text-align: right;
+    color: #414141;
 }
 
 .carSelected {
-    color: white;
+    color: black;
     animation: 2s infinite bgcolorchange;
+}
+
+.dispatched {
+    color: #ff6633 !important;
 }
 
 
@@ -204,7 +216,7 @@ svg path {
     cursor: pointer;
 }
 
-#siren .undraggable {
+#siren.undraggable * {
     pointer-events: none;
     opacity: 0.5;
 }
@@ -221,7 +233,7 @@ svg path {
 #alertRecieved {
     position: absolute;
     max-width: 300px;
-    max-height: 50px;
+    max-height: 72px;
     z-index: 500;
     background: rgba(255, 255, 255, 0.9);
     left: 0;
@@ -229,9 +241,34 @@ svg path {
     top: 0;
     bottom: 0;
     margin: auto;
-    margin-top: 20px;
-    margin-left: 110px;
+    margin-top: 12px;
+    margin-left: 50px;
     text-align: center;
     border-radius: 5px;
+    display: none;
+    padding-left: 45px;
+
+    -webkit-box-shadow: 0px 2px 9px -1px rgba(255,102,51,1);
+-moz-box-shadow: 0px 2px 9px -1px rgba(255,102,51,1);
+box-shadow: 0px 2px 9px -1px rgba(255,102,51,1);
+}
+
+#alertRecieved h3 {
+    margin: 0;
+    line-height:40px;
+    color: #ff6633;
+}
+
+#alertRecieved p {
+    margin: 0;
+}
+
+#alertRecieved img {
+    position: absolute;
+    top: 7px;
+    left: 8px;
+}
+
+.center_button.leaflet-control {
     display: none;
 }

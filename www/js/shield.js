@@ -35,9 +35,28 @@ CARTO.callbacks['pre_equinox'] =
 
         map_object.map_callbacks_aux.point.update = function(d, i, domElement) {
 
-            d.style("fill", "url(#exampleGradient)")
+            d.classed("dispatched", function(circle){
+                if(circle.properties.state)
+                    return (circle.properties.state==1);
+            });
+
+            d.style("fill", function(circle){
+                if(circle.properties.state)
+                    return "#ff6633";
+                else
+                    return "url(#exampleGradient)"
+            })
                 .style("stroke", "rgba(0,153,212, 0.4)")
-                .style("stroke-width", "1px");
+                .style("stroke-width", "1px")
+                .attr("r", function (circle) {
+                    if(circle.properties.state){
+                        console.log(d3.select(this))
+                        return d3.select(this)[0][0].r.baseVal.value / 2;
+                    } else {
+                        return d3.select(this)[0][0].r.baseVal.value;//circle.r;
+                    }
+                });
+
         };
 
         /*
@@ -60,6 +79,11 @@ CARTO.callbacks['init_equinox'] =
     function (map_object, args) {
 
         const uri = args[0][0];
+        window.luca_uri = uri;
+        const debug = true;
+
+        d3.json(window.luca_uri + "/reset_positions", function(data){
+        });
 
         let self = {};
         self.map_object = map_object;
@@ -79,42 +103,63 @@ CARTO.callbacks['init_equinox'] =
 
         function alert(lat, lon) {
 
+            clearInterval(window.luca_interval);
+
             d3.json(uri + "/push_incident?lon=" + lon + "&lat=" + lat, function(data){
                 console.log(data);
                 let car_ids = [];
                 let car_list = [];
 
                 data.map(function(car, i){
-                    if (i <= 1)
+                    if (i <= 2)
                         car_ids.push(car[1]);
 
-                    let html = `<a href='#' data-element='${car[1]}'><i class="fa fa-car icon-white"></i>Police Car ${car[1].toUpperCase().replace("B", "#")} <span class="speed">${car[7]} / ${car[9]}</span></a>`
+                    let html = `<a href='#' data-element='${car[1]}'><i class="fa fa-car icon-white"></i>Police Car ${car[1].toUpperCase().replace("B", "#")} <p class="speed">${car[7]} / ${car[9]} / ${(car[10]*100).toFixed(2)}%</p></a>`
                     car_list.push(html)
                 });
 
-                fillMenu(car_list, self);
-                d3.select("#alertRecieved").style("display", "none")
-                $('#audioSiren').trigger("pause")
 
-                console.log("showing best routes " + car_ids.length);
+                function act_after_alert() {
 
-                car_list = self.map_object.mapChart.geoData["Police Coverage"].geoPoints.map(function(d){
+                    window.luca_routes = [];
 
-                    if (car_ids.indexOf(d.id) >= 0) {
-                        L.Routing.control({
-                            waypoints: [
-                                L.latLng(d.geometry.coordinates[1], d.geometry.coordinates[0]),
-                                L.latLng(lat, lon)
-                            ],
-                            fitSelectedRoutes: false
-                        }).addTo(map);
-                    }
-                });
+                    fillMenu(car_list, self);
+
+                    console.log("showing best routes " + car_ids.length);
+
+                    car_list = self.map_object.mapChart.geoData["Police Coverage"].geoPoints.map(function (d) {
+
+                        if (car_ids.indexOf(d.id) >= 0) {
+                            let routing = L.Routing.control({
+                                waypoints: [
+                                    L.latLng(d.geometry.coordinates[1], d.geometry.coordinates[0]),
+                                    L.latLng(lat, lon)
+                                ],
+                                fitSelectedRoutes: false
+                            }).addTo(map);
+
+                            window.luca_routes.push(routing);
+                        }
+                    });
+
+                    window.luca_alert_lon = lon;
+                    window.luca_alert_lat = lat;
+                    window.luca_alert = true;
+
+                    d3.select("#alertRecieved p").text("Patrols ready! Which one should go?");
+                }
+
+                if(debug){
+                    setTimeout(act_after_alert, 3000);
+                } else {
+                    act_after_alert();
+                }
+
             });
         }
 
-        var markers = [], // an array containing all the markers added to the map
-            markersCount = 0; // the number of the added markers
+        var markers = []; // an array containing all the markers added to the map
+        window.luca_markersCount = 0; // the number of the added markers
         var addMarkers = () => {
             let map = self.map_object.mapChart.map;
             // The position of the marker icon
@@ -134,11 +179,12 @@ CARTO.callbacks['init_equinox'] =
                     var coords = $('#menu').position();
                     coords.bottom = coords.top + $('#menu').height();
                     coords.bottomRight = coords.left + $('#menu').width();
-                    if (markersCount >= 0) {
-                        d3.select("#sirenImg").classed("undraggable", "true")
+                    if (window.luca_markersCount >= 0) {
+                        d3.select("#siren").classed("undraggable", true);
                     }
-                    if (!(ui.position.top >= coords.top && ui.position.top <= coords.bottom && ui.position.left >= coords.left && ui.position.left <= coords.bottomRight) && markersCount === 0) {
-                        d3.select("#sirenImg").classed("undraggable", "false")
+
+                    if (!(ui.position.top >= coords.top && ui.position.top <= coords.bottom && ui.position.left >= coords.left && ui.position.left <= coords.bottomRight) && window.luca_markersCount === 0) {
+                        //d3.select("#sirenImg").classed("undraggable", "false")
                         d3.select("#alertRecieved").style("display", "block")
 
                         $('#audioSiren').trigger("play")
@@ -157,7 +203,7 @@ CARTO.callbacks['init_equinox'] =
                             });
 
                         // Creating a new marker and adding it to the map
-                        markers[markersCount] = L.marker([markerCoords.lat, markerCoords.lng], {
+                        markers[window.luca_markersCount] = L.marker([markerCoords.lat, markerCoords.lng], {
                             draggable: true,
                             icon: myIcon
                         }).addTo(map);
@@ -165,7 +211,7 @@ CARTO.callbacks['init_equinox'] =
                         //console.log(markerCoords);
                         alert(markerCoords.lat, markerCoords.lng);
 
-                        markersCount++;
+                        window.luca_markersCount++;
                     }
                 }
             });
@@ -174,7 +220,7 @@ CARTO.callbacks['init_equinox'] =
 
         car_list = [];
         self.map_object.mapChart.geoData["Police Coverage"].geoPoints.map(function(d, idx){
-            let html = `<a href='#' data-element='${d.id}'><i class="fa fa-car icon-white"></i>Police Car ${d.id.toUpperCase().replace("B", "#")} <span class="speed">${d.properties.speed} Km/h</span></a>`
+            let html = `<a href='#' data-element='${d.id}'><i class="fa fa-car icon-white"></i>Police Car ${d.id.toUpperCase().replace("B", "#")} <p class="speed">${d.properties.speed} Km/h</p></a>`
             car_list.push(html)
         });
 
@@ -186,8 +232,7 @@ CARTO.callbacks['init_equinox'] =
         let marker_layer = "Police Cars";
         let layer = "Police Coverage";
 
-
-        window.setInterval(function(){
+        window.luca_interval_function = function(){
 
             d3.json(uri + "/get_positions", function(new_data){
 
@@ -212,14 +257,17 @@ CARTO.callbacks['init_equinox'] =
 
                 car_list = [];
                 self.map_object.mapChart.geoData["Police Coverage"].geoPoints.map(function(d, idx){
-                    let html = `<a href='#' data-element='${d.id}'><i class="fa fa-car icon-white"></i>Police Car ${d.id.toUpperCase().replace("B", "#")} <span class="speed">${d.properties.speed} Km/h</span></a>`
+                    let html = `<a href='#' data-element='${d.id}'><i class="fa fa-car icon-white"></i>Police Car ${d.id.toUpperCase().replace("B", "#")} <p class="speed">${d.properties.speed} Km/h</p></a>`
                     car_list.push(html)
                 });
 
-                fillMenu(car_list, self);
+                if(!window.luca_alert)
+                    fillMenu(car_list, self);
             })
 
-        }, 5000);
+        };
+
+        window.luca_interval = window.setInterval(window.luca_interval_function, 2000);
 
 
         console.log(self.map_object)

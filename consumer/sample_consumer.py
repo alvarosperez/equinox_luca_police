@@ -37,7 +37,7 @@ for message in consumer:
             update = False
 
     if not update:
-        logging("Car was alarmed, do not update")
+        logging.info("Car was alarmed, do not update")
         continue
 
 

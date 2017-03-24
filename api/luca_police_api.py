@@ -4,7 +4,7 @@ from flask import request
 from car_positions import Fleet
 from incidents import Planner
 from flask_cors import CORS
-from assign_car import update_assigned_car
+from assign_car import update_assigned_car, reset_assigned_car
 import ConfigParser
 import sys
 
@@ -24,6 +24,11 @@ p = Planner()
 @app.route("/get_positions")
 def get_positions():
     return f.get_car_positions()
+
+
+@app.route("/reset_positions")
+def reset_positions():
+    return reset_assigned_car()
 
 
 @app.route("/push_incident")
