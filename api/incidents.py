@@ -8,7 +8,7 @@ from shapely.geometry import box, Point
 import ConfigParser
 
 
-radius = 100
+radius = 0.02
 
 class Planner:
     query = 'select code, lat, lon, day, state from cars'
@@ -71,7 +71,7 @@ class Planner:
     def calculate_coverage(self, distances):
         # distances format: code, lat, lon, dt, state, time_value, time_text, dist_value, dist_text
         # Para cada vehiculo calculo la cobertura sobre el bounding box del DF
-        bbox = box(-99.3573, -98.9433, 19.5927, 19.1322)
+        bbox = box(-99.3573, 19.5927, -98.9433,  19.1322)
 
         circles = []
         for c in distances:
