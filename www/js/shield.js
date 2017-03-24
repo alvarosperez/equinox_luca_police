@@ -203,6 +203,14 @@ CARTO.callbacks['init_equinox'] =
                     {});
 
                 self.map_object.mapChart.showMarkerLayer(marker_layer);
+
+                car_list = [];
+                self.map_object.mapChart.geoData["Police Coverage"].geoPoints.map(function(d, idx){
+                    let html = `<a href='#' data-element='${d.id}'><i class="fa fa-car icon-white"></i>Police Car ${d.id.toUpperCase().replace("B", "#")} <span class="speed">${d.properties.speed} Km/h</span></a>`
+                    car_list.push(html)
+                });
+
+                fillMenu(car_list, self);
             })
 
         }, 5000);
