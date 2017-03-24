@@ -1,6 +1,6 @@
 {
     "name": "Equinox",
-    "on_load": ["init_equinox",["http://10.95.230.230:5030"]],
+    "on_load": ["init_equinox",["http://localhost:5030"]],
     "layers": [
         {
             "pre_render": "pre_equinox",
@@ -14,7 +14,7 @@
                 "id": "id"
             },
 
-            "file": ["json", "http://10.95.230.230:5030/get_positions"]
+            "file": ["json", "http://localhost:5030/get_positions"]
         },
         {
             "name": "Police Cars",
@@ -26,7 +26,7 @@
             "display": {
                 "id": "id"
             },
-            "file": ["json", "http://10.95.230.230:5030/get_positions"]
+            "file": ["json", "http://localhost:5030/get_positions"]
         }
     ],
     "markers":{

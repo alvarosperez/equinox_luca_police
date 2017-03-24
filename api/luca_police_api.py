@@ -52,4 +52,4 @@ if __name__ == "__main__":
     hostname = Config.get('app', 'host')
 
     logging.info("Starting port: " + str(port))
-    app.run(host=hostname, port=port)
+    app.run(host=hostname, port=port, debug=True, threaded=False)

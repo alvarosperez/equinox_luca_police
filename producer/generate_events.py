@@ -7,7 +7,7 @@ import json
 
 
 # Each second, we simulate are this number of seconds
-time_step = 600
+time_step = 60
 
 import logging
 logging.basicConfig(level=logging.INFO,
@@ -19,7 +19,7 @@ producer = KafkaProducer(bootstrap_servers='localhost:9092',
                          value_serializer=lambda m: json.dumps(m).encode('ascii'))
 
 
-with open('/data/hertz/Mexico_ordenado.csv', 'r') as f:
+with open('/Users/asp/Develop/equinox_kafka/Mexico_ordenado.csv', 'r') as f:
     r = csv.DictReader(f)
     line = r.next()
     # longitude, datetime, iddevice, latitude, speed, id
@@ -36,8 +36,9 @@ with open('/data/hertz/Mexico_ordenado.csv', 'r') as f:
             event_dt = datetime.strptime(line['datetime'], '%Y-%m-%d %H:%M:%S')
 
         logging.info("Next event time: " + str(event_dt))
+        logging.info((event_dt - current_dt).seconds/time_step)
         time.sleep((event_dt - current_dt).seconds/time_step)
 
         logging.info("Generating event: " + str(line))
-        ev = producer.send('position_updates', line)
+        ev = producer.send('positionupdates', line)
         current_dt = event_dt

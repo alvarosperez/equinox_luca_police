@@ -5,7 +5,7 @@ import ConfigParser
 
 
 class Fleet:
-    query = 'select code, lat, long, day, speed from cars'
+    query = 'select code, lat, lon, day, speed, state from cars'
 
     def __init__(self):
         try:
@@ -14,7 +14,7 @@ class Fleet:
 
             dbpath = Config.get('database', 'path')
             #self.con = lite.connect('/data/hertz/luca_police.db')
-            self.con = lite.connect(dbpath)
+            self.con = lite.connect(dbpath, check_same_thread=False)
             self.cur = self.con.cursor()
         except:
             logging.error("Couldnt find database")
@@ -39,6 +39,7 @@ class Fleet:
             geometry['properties']['id'] = row[0]
             geometry['properties']['speed'] = row[4]
             geometry['properties']['type'] = 'basic'
+            geometry['properties']['state'] = row[5]
             f['features'].append(geometry)
         return json.dumps(f)
 

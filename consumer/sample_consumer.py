@@ -9,7 +9,7 @@ logging.basicConfig(level=logging.INFO,
 logging.info("Starting")
 
 try:
-    con = lite.connect('/data/hertz/luca_police.db')
+    con = lite.connect('/Users/asp/Develop/equinox_kafka/luca_police.db')
     cur = con.cursor()
 except:
     logging.error("Couldnt find database")
@@ -17,7 +17,7 @@ except:
 # To consume latest messages and auto-commit offsets
 logging.info("Instancing Kafka Consumer")
 
-consumer = KafkaConsumer('position_updates',
+consumer = KafkaConsumer('positionupdates',
                          bootstrap_servers=['localhost:9092'])
 
 
@@ -43,7 +43,7 @@ for message in consumer:
 
 
 
-    insert_string = "INSERT or REPLACE INTO cars (code, lat, long, day, speed, state)  \
+    insert_string = "INSERT or REPLACE INTO cars (code, lat, lon, day, speed, state)  \
                      VALUES ('{}', {}, {}, '{}', {}, {})".format(v['iddevice'],
                                                             v['latitude'],
                                                             v['longitude'],
