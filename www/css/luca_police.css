@@ -204,7 +204,7 @@ svg path {
     cursor: pointer;
 }
 
-#siren .undraggable {
+#siren.undraggable * {
     pointer-events: none;
     opacity: 0.5;
 }
