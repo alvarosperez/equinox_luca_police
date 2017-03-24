@@ -80,6 +80,7 @@ CARTO.callbacks['init_equinox'] =
 
         const uri = args[0][0];
         window.luca_uri = uri;
+        const debug = true;
 
         d3.json(window.luca_uri + "/reset_positions", function(data){
         });
@@ -110,33 +111,49 @@ CARTO.callbacks['init_equinox'] =
                 let car_list = [];
 
                 data.map(function(car, i){
-                    if (i <= 1)
+                    if (i <= 2)
                         car_ids.push(car[1]);
 
-                    let html = `<a href='#' data-element='${car[1]}'><i class="fa fa-car icon-white"></i>Police Car ${car[1].toUpperCase().replace("B", "#")} <span class="speed">${car[7]} / ${car[9]}</span></a>`
+                    let html = `<a href='#' data-element='${car[1]}'><i class="fa fa-car icon-white"></i>Police Car ${car[1].toUpperCase().replace("B", "#")} <p class="speed">${car[7]} / ${car[9]} / ${(car[10]*100).toFixed(2)}%</p></a>`
                     car_list.push(html)
                 });
 
-                fillMenu(car_list, self);
 
-                console.log("showing best routes " + car_ids.length);
+                function act_after_alert() {
 
-                car_list = self.map_object.mapChart.geoData["Police Coverage"].geoPoints.map(function(d){
+                    window.luca_routes = [];
 
-                    if (car_ids.indexOf(d.id) >= 0) {
-                        L.Routing.control({
-                            waypoints: [
-                                L.latLng(d.geometry.coordinates[1], d.geometry.coordinates[0]),
-                                L.latLng(lat, lon)
-                            ],
-                            fitSelectedRoutes: false
-                        }).addTo(map);
-                    }
-                });
+                    fillMenu(car_list, self);
 
-                window.luca_alert_lon = lon;
-                window.luca_alert_lat = lat;
-                window.luca_alert = true;
+                    console.log("showing best routes " + car_ids.length);
+
+                    car_list = self.map_object.mapChart.geoData["Police Coverage"].geoPoints.map(function (d) {
+
+                        if (car_ids.indexOf(d.id) >= 0) {
+                            let routing = L.Routing.control({
+                                waypoints: [
+                                    L.latLng(d.geometry.coordinates[1], d.geometry.coordinates[0]),
+                                    L.latLng(lat, lon)
+                                ],
+                                fitSelectedRoutes: false
+                            }).addTo(map);
+
+                            window.luca_routes.push(routing);
+                        }
+                    });
+
+                    window.luca_alert_lon = lon;
+                    window.luca_alert_lat = lat;
+                    window.luca_alert = true;
+
+                    d3.select("#alertRecieved p").text("Patrols ready! Which one should go?");
+                }
+
+                if(debug){
+                    setTimeout(act_after_alert, 3000);
+                } else {
+                    act_after_alert();
+                }
 
             });
         }
@@ -167,7 +184,11 @@ CARTO.callbacks['init_equinox'] =
                     }
 
                     if (!(ui.position.top >= coords.top && ui.position.top <= coords.bottom && ui.position.left >= coords.left && ui.position.left <= coords.bottomRight) && window.luca_markersCount === 0) {
-                        //d3.select("#siren").classed("undraggable", false)
+                        //d3.select("#sirenImg").classed("undraggable", "false")
+                        d3.select("#alertRecieved").style("display", "block")
+
+                        $('#audioSiren').trigger("play")
+
                         var coordsX = event.clientX,
                             coordsY = event.clientY,
                             point = L.point(coordsX, coordsY), // createing a Point object with the given x and y coordinates
@@ -199,7 +220,7 @@ CARTO.callbacks['init_equinox'] =
 
         car_list = [];
         self.map_object.mapChart.geoData["Police Coverage"].geoPoints.map(function(d, idx){
-            let html = `<a href='#' data-element='${d.id}'><i class="fa fa-car icon-white"></i>Police Car ${d.id.toUpperCase().replace("B", "#")} <span class="speed">${d.properties.speed} Km/h</span></a>`
+            let html = `<a href='#' data-element='${d.id}'><i class="fa fa-car icon-white"></i>Police Car ${d.id.toUpperCase().replace("B", "#")} <p class="speed">${d.properties.speed} Km/h</p></a>`
             car_list.push(html)
         });
 
@@ -236,7 +257,7 @@ CARTO.callbacks['init_equinox'] =
 
                 car_list = [];
                 self.map_object.mapChart.geoData["Police Coverage"].geoPoints.map(function(d, idx){
-                    let html = `<a href='#' data-element='${d.id}'><i class="fa fa-car icon-white"></i>Police Car ${d.id.toUpperCase().replace("B", "#")} <span class="speed">${d.properties.speed} Km/h</span></a>`
+                    let html = `<a href='#' data-element='${d.id}'><i class="fa fa-car icon-white"></i>Police Car ${d.id.toUpperCase().replace("B", "#")} <p class="speed">${d.properties.speed} Km/h</p></a>`
                     car_list.push(html)
                 });
 

@@ -5,7 +5,7 @@ function fillMenu(list, self) {
     window.luca_alert_sent = window.luca_alert_sent || [];
 
     window.luca_alert_sent.map(function(elem) {
-        $("#menu #cars").append("<a href='#' data-element='" + elem + "'><i class=\"fa fa-car icon-white carSelected\"></i>Police Car " + elem.toUpperCase().replace("B", "#") + " <span class=\"speed\">Dispatched</span></a>")
+        $("#menu #cars").append("<a href='#' data-element='" + elem + "'><i class=\"fa fa-car icon-white carSelected\"></i>Police Car " + elem.toUpperCase().replace("B", "#") + " <p class=\"speed dispatched\">Dispatched</p></a>")
     });
 
     list.map((elem) => {
@@ -56,13 +56,21 @@ function fillMenu(list, self) {
 
             d3.json(window.luca_uri + "/assign_car?lon=" + window.luca_alert_lon + "&lat=" + window.luca_alert_lat + "&idcar=" + id, function(data){
 
+                $('#audioSiren').trigger("pause");
                 window.luca_interval = window.setInterval(window.luca_interval_function, 2000);
                 setTimeout(function(){
-                    d3.selectAll("path").remove();
+                    //d3.selectAll("path").remove();
+                    window.luca_routes.map(function(route){
+
+                        self.map_object.mapChart.map.removeControl(route);
+                    });
+
                     d3.select(".alertMarker").remove();
 
                     window.luca_markersCount = 0;
                     d3.select("#siren").classed("undraggable", false);
+
+                    d3.select("#alertRecieved").style("display", "none");
                 }, 2000);
             })
         }
@@ -70,11 +78,19 @@ function fillMenu(list, self) {
     });
 
     d3.selectAll("#menu #cars a").on("mouseout", function() {
+
+        let id = d3.select(this).attr("data-element");
+
         d3.selectAll("circle.points").classed("deactivated", false);
         //$(this).find("i").removeClass("carSelected")
 
         d3.selectAll("circle.points")
-                .style("fill", "url(#exampleGradient)")
+                .style("fill", function(d){
+                    if (d.properties.state) {
+                        return "#ff6633";
+                    } else
+                        return "url(#exampleGradient)";
+                })
                 .style("stroke", "rgba(0,153,212, 0.4)")
                 .style("stroke-width", "1px");
     })
