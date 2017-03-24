@@ -57,7 +57,7 @@ function fillMenu(list, self) {
             d3.json(window.luca_uri + "/assign_car?lon=" + window.luca_alert_lon + "&lat=" + window.luca_alert_lat + "&idcar=" + id, function(data){
 
                 $('#audioSiren').trigger("pause");
-                window.luca_interval = window.setInterval(window.luca_interval_function, 2000);
+                window.luca_interval = window.setInterval(window.luca_interval_function, 1000);
                 setTimeout(function(){
                     //d3.selectAll("path").remove();
                     window.luca_routes.map(function(route){
@@ -71,7 +71,7 @@ function fillMenu(list, self) {
                     d3.select("#siren").classed("undraggable", false);
 
                     d3.select("#alertRecieved").style("display", "none");
-                }, 2000);
+                }, 1000);
             })
         }
 

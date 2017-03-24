@@ -19,7 +19,7 @@ body {
     overflow-x: hidden;
     transition: 0.5s;
 
-    background: linear-gradient(-90deg,#f1f1f1,hsla(0,0%,100%,.3));
+    background: linear-gradient(-90deg,#f1f1f1,hsla(0,0%,100%,.7));
     box-shadow: -1px 1px 20px 0px rgba(0,0,0,.4);
 
     padding: 150px 0 20px 0;
@@ -271,4 +271,47 @@ box-shadow: 0px 2px 9px -1px rgba(255,102,51,1);
 
 .center_button.leaflet-control {
     display: none;
+}
+
+img#logo {
+    position: absolute;
+    z-index: 999999;
+    bottom: 10px;
+    left: 10px;
+    width: 250px;
+    pointer-events: none;
+}
+
+div#splash {
+    position: absolute;
+
+    top: 10px;
+    bottom: 10px;
+    right: 10px;
+    left: 10px;
+    z-index: 9999999999999;
+
+    border-radius: 10px;
+    padding: 25px;
+
+    background: #fff;
+
+    -webkit-box-shadow: 0px 2px 9px -1px #909;
+-moz-box-shadow: 0px 2px 9px -1px #909;
+box-shadow: 0px 2px 9px -1px #909;
+}
+
+div#splash .flex {
+    display: flex;
+}
+
+div#splash .flex h2 {
+    margin-top: 50px;
+}
+
+div#splash .flex h1 {
+    background-color: #909;
+    color: white;
+    padding: 20px 0;
+    text-align: center;
 }

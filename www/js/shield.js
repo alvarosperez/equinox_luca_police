@@ -78,6 +78,11 @@ CARTO.callbacks['init_equinox'] =
 
     function (map_object, args) {
 
+
+        d3.select("div#splash .flex h1").on("click", function(){
+            d3.select("div#splash").remove();
+        });
+
         const uri = args[0][0];
         window.luca_uri = uri;
         const debug = true;
@@ -150,7 +155,7 @@ CARTO.callbacks['init_equinox'] =
                 }
 
                 if(debug){
-                    setTimeout(act_after_alert, 3000);
+                    act_after_alert(); //setTimeout(act_after_alert, 3000);
                 } else {
                     act_after_alert();
                 }
@@ -187,7 +192,7 @@ CARTO.callbacks['init_equinox'] =
                         //d3.select("#sirenImg").classed("undraggable", "false")
                         d3.select("#alertRecieved").style("display", "block")
 
-                        $('#audioSiren').trigger("play")
+                        $('#audioSiren').attr("currentTime", 0).trigger("play");
 
                         var coordsX = event.clientX,
                             coordsY = event.clientY,
@@ -267,7 +272,7 @@ CARTO.callbacks['init_equinox'] =
 
         };
 
-        window.luca_interval = window.setInterval(window.luca_interval_function, 2000);
+        window.luca_interval = window.setInterval(window.luca_interval_function, 1000);
 
 
         console.log(self.map_object)
