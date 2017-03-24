@@ -2,14 +2,22 @@ from kafka import KafkaConsumer
 import sqlite3 as lite
 import json
 import logging
+import ConfigParser
 
 logging.basicConfig(level=logging.INFO,
                     format='%(asctime)s %(levelname)-6s| %(message)s')
 
 logging.info("Starting")
 
+Config = ConfigParser.ConfigParser()
+Config.read('consumer.cfg')
+
+dbpath = Config.get('database', 'path')
+topic = Config.get('kafka', 'topic')
+bootstrap_server = Config.get('kafka', 'server')
+
 try:
-    con = lite.connect('/Users/asp/Develop/equinox_kafka/luca_police.db')
+    con = lite.connect(dbpath)
     cur = con.cursor()
 except:
     logging.error("Couldnt find database")
@@ -17,8 +25,8 @@ except:
 # To consume latest messages and auto-commit offsets
 logging.info("Instancing Kafka Consumer")
 
-consumer = KafkaConsumer('positionupdates',
-                         bootstrap_servers=['localhost:9092'])
+consumer = KafkaConsumer(topic,
+                         bootstrap_servers=[bootstrap_server])
 
 
 for message in consumer:
