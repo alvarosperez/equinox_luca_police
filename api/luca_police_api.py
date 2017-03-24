@@ -14,6 +14,10 @@ import sys
 app = Flask(__name__)
 CORS(app)
 
+logging.basicConfig(level=logging.INFO,
+                    format='%(asctime)s %(levelname)-6s| %(message)s')
+
+
 f = Fleet()
 p = Planner()
 
@@ -41,8 +45,6 @@ def assign_car():
 
 if __name__ == "__main__":
 
-    logging.basicConfig(stream=sys.stdout, level=logging.DEBUG,
-                    format='%(asctime)s %(levelname)-6s| %(message)s')
 
     logging.info("Starting API")
     Config = ConfigParser.ConfigParser()
@@ -52,4 +54,4 @@ if __name__ == "__main__":
     hostname = Config.get('app', 'host')
 
     logging.info("Starting port: " + str(port))
-    app.run(host=hostname, port=port, debug=True, threaded=False)
+    app.run(host=hostname, port=port, threaded=False)
