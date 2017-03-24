@@ -93,6 +93,8 @@ CARTO.callbacks['init_equinox'] =
                 });
 
                 fillMenu(car_list, self);
+                d3.select("#alertRecieved").style("display", "none")
+                $('#audioSiren').trigger("pause")
 
                 console.log("showing best routes " + car_ids.length);
 
@@ -137,6 +139,10 @@ CARTO.callbacks['init_equinox'] =
                     }
                     if (!(ui.position.top >= coords.top && ui.position.top <= coords.bottom && ui.position.left >= coords.left && ui.position.left <= coords.bottomRight) && markersCount === 0) {
                         d3.select("#sirenImg").classed("undraggable", "false")
+                        d3.select("#alertRecieved").style("display", "block")
+
+                        $('#audioSiren').trigger("play")
+
                         var coordsX = event.clientX,
                             coordsY = event.clientY,
                             point = L.point(coordsX, coordsY), // createing a Point object with the given x and y coordinates
