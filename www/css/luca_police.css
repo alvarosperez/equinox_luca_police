@@ -229,18 +229,9 @@ svg path {
     top: 0;
     bottom: 0;
     margin: auto;
-    margin-top: 40px;
+    margin-top: 20px;
     margin-left: 110px;
     text-align: center;
     border-radius: 5px;
     display: none;
-}
-
-@keyframes colorchange {
-    0% {
-        color: black;
-    }
-    50% {
-        color: grey;
-    }
 }
